@@ -1,0 +1,56 @@
+Documentation des différentes requêtes SQL utilisées dans le projet
+=================================================================
+
+requete_cepage_caracteristique
+------------------------------
+Cette requête permet au viticulteur de vérifier la différence de qualité d'une caractéristique (comme par exemple la robe) en fonction du cépage utilisé.  
+L'utilisateur va également pouvoir choisir le pourcentage limite pour lequel un assemblage peut etre considéré comme ayant de l'impact sur la caractéristique.
+La requete est composée de deux SELECT imbriqués.   
+- Le SELECT au centre permet de donner le pourcentage de cépage qui compose un vin (la requete fait apparaitre le nom du cépage et le vin).
+- Le second SELECT permet de présenter le nom du cépage ainsi que le nombre de vin et la note moyenne des vins utilisant ce cépage à plus de n% (n étant choisi par l'utiisateur).
+
+requete_ecologique_traitement
+-----------------------------
+L'objectif de cette requête est de retourner au viticulteur l'influence qu'ont les traitements phytosanitaires sur les caractéristiques des vins.  
+Pour cela, l'utilisateur est chargé de sélectionner un traitement, un vin et une caractéristique.  
+La requête va alors nous retourner, pour chaque année où un tel vin a été produit, la note associée à cette caractéristique (si elle existe), ainsi que le nombre total de fois où ce traitement a été appliqué.  
+Sur le plan du fonctionnement interne de la requête, l'utilisation d'un GROUP BY nous permet de grouper les utilisations d'un même traitement sur un même vin, ce qui nous permet de compter le nombre d'applications de ce traitement.
+
+requete_finance_evenement_climatique
+------------------------------------
+L'objectif de cette requête est de retourner au viticulteur l'influence des événements climatiques sur ses revenus.  
+Pour cela, l'utilisateur va devoir choisir un vin.  
+La requête va alors lui retourner, pour chaque année où un tel vin a été produit, le chiffre d'affaire réalisé par sa vente, ainsi que l'ensemble des évènements climatiques (datés et associés de leur intensité) ayant touché les parcelles ayant servi à le réaliser (dont le pourcentage est affiché).  
+Sur le plan du fonctionnement interne de la requête, celle-ci est composée de deux SELECT imbriqués, reliés par une jointure de type LEFT JOIN.
+- Le premier SELECT permet de donner la liste des événements climatiques qui ont touché chaque vin avec leurs intensités et le pourcentage du vin qui a été touché.
+- Le second SELECT permet, pour un vin donné, d'afficher pour chaque année le chiffre d'affaire qu'il a généré ainsi que les évenements qui l'ont touché
+
+requete_finance_mode_culture
+----------------------------
+L'objectif de cette requête est de retourner au viticulteur l'influence de l'utilisation de différents modes de culture sur le coût du vin.
+Pour cela, l'utilisateur va devoir choisir un vin.  
+La requête va alors lui retourner, pour chaque année où un tel vin a été produit, le prix de vente, ainsi que l'ensemble des couples gestion du sol - mode de taille utilisés sur les parcelles ayant servi à le réaliser (dont le pourcentage est affiché).
+
+requete_finance_traitement
+--------------------------
+L'objectif de cette requête est de retourner au viticulteur l'nfluence de l'utilisation de différents traitements sur le coût du vin.  
+Pour cela, l'utilisateur va devoir choisir un traitement ainsi qu'un vin.  
+La requête va alors lui retourner, pour chaque année où un tel vin a été produit, le chiffre d'affaire réalisé, ainsi que le nombre total d'utilisations de ce traitement sur les parcelles ayant permis de composer le vin.  
+Sur le plan du fonctionnement interne de la requête, l'utilisation d'un GROUP BY nous permet de grouper les utilisations d'un même traitement sur un même vin pour une même année, ce qui nous permet au final de compter le nomre d'applications de ce traitement.
+
+requete_qualite_evenement_climatique
+------------------------------------
+L'objectif de la requête est de montrer l'impact qu'ont les événements climatique sur la qualité d'un vin que choisit l'utilisateur en fonction d'une caractéristique bien précise (par exemple la robe).  
+La requête va retourner à l'utilisateur la liste des vin, la note de la caractéristique ainsi que l'événement climatique associé. Le tableau va aussi retourner le pourcentage d'assemblage de la parcelle qui a été utilisée pour faire le vin (pour pouvoir voir si l'événement a eu un impact important sur la parcelle, et donc le vin).
+
+requete_qualite_mode_culture
+----------------------------
+L'objectif de cette requête est de retourner au viticulteur l'influence de l'utilisation de différents modes de culture sur la qualité des vins.  
+Pour cela, l'utilisateur va devoir choisir un critère de qualité appliqué aux vins.  
+La requête va alors lui retourner, pour chaque couple gestion du sol - mode de taille appliqué à la parcelle, la note moyenne que le critère de qualité a obtenu.  
+Sur le plan du fonctionnement interne de la requête, l'utilisation d'un GROUP BY nous permet de grouper les différentes utilisations d'un même couple gestion du sol - mode de taille, afin de pouvoir en calculer au final la note moyenne associée.
+
+requete_qualite_mode_culture_quantite
+-------------------------------------
+Cette requête correspond à la requête sur la qualité et le mode de culture, sauf que cette fois, la requête va montrer l'impact qu'un mode de culture a sur la vente d'un vin.  
+L'utilisateur va choisir le nom d'un vin, et la requête va lui renvoyer la vente de ce vin en fonction de l'année et du mode de culture.
